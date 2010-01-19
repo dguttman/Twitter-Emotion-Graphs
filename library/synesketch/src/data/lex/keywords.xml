@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="intensity.modifiers">very, awfully, dreadfully, eminently, exceedingly, exceptionally, extra, extremely, greatly, highly, most, notably, absolutely, awfully, completely, deeply, eminently, emphatically, exceedingly, greatly, great, highly, high, hugely, huge, mighty, most, much, notably, remarkably, strikingly, surpassingly, terribly</entry>
+	<entry key="negations">no, not, don't, dont, haven't, weren't, wasn't, didn't</entry>
+</properties>

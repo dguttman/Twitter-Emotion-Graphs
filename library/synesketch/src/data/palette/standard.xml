@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="happiness.palette">e9d002, efd701, eccb00, eece25, f5ca01, f3c500, f9d646, efcb1f, f3cc29, fdbb03, f9ab01, f99f0b, fcae0e, f5a204, f07706, fb8933, fd812b, f94000, f85f26, f04c29, 701f1a, fa4c1a, f82301, cc0001, f31a11, ec0002, ed0101, eb0b15, df0303, c31455, c00000, 66a3e6, 5cbcd5, 54bdd3, 4cc949, 90dc00, d7dc00, cdbf00</entry>
+	<entry key="sadness.palette">e1d48e, 8153a8, 13020c, eed5f5, 9c7ca1, 492d46, 492d46, 703ca8, 2c0c58, 9154c9, 4756a9, 181447, b8b5ea, 8287cb, 100f48, cdd4f1, 9db1d4, 494755, b1cef0, c3ddf4, 1a82d9, c4cbdb, c8e0f8, 56869c, c3cfdd, 91d3e3, 0b779d, faf9f4, 4c5457, 033f3f, adbeac, 6ca85e, 6a9b0c, c8aed2, c7bb14, 110f39, b283a9, 6f243e</entry>
+	<entry key="anger.palette">f91d03, e30409, ce2923, ee020e, e20610, e2000d, cf0221, d80434, ac0308, d21018, da0109, bd0c28, b7010d, ca020d, 692e0c, 631407, 670735, 3d352a, 391d19, 910302, 8d0303, b6000f, 46080b, 7b0408, 8b0212, 5e050b, 71127a, 5c638f, 3e1386, 100211, 96cf04, 1e2b22, 021a4a, 5a700b, 656a56, 222421, c9db09, 2c231a</entry>
+	<entry key="fear.palette">d1b000, 725100, 543202, f2ebd1, aa9769, 874700, f8eeec, fceeeb, af6d51, ffdcf5, e57dbc, 310200, a10b79, 650f70, 010103, a3b4ec, 316ad1, 060918, cacfed, cbe0fd, 889cb4, e0ecfc, 87d6f4, 0274a8, bed4df, 84d1c9, 152a2f, 44a254, 187f54, 084639, 7f8877, 739800, 767700, d0db12, bec468, b2a14e, d1cf70, 2d2f3b</entry>
+	<entry key="disgust.palette">e4c424, d2ab06, b59315, 9a6f07, 58401c, 5a4118, ea9610, c47113, 35140f, d1a76b, e06515, 664429, ee320c, c0390c, 201911, c50a15, 760e0f, 810c14, df98a6, 810d10, 6b0c10, aa1372, 471876, 14042b, 593d7a, 403054, 26385e, a8e607, 81b709, 0b0a06, c6df07, 6f7707, 161a09, 989e44, 463227, 311f13, 908d40, 030102</entry>
+	<entry key="surprise.palette">f3e31e, e4da19, ecd702, f5e866, edc70a, ecca07, fcb002, f4aa00, efa101, fb9318, fd8804, f96400, fd8002, f55981, e70a11, f6458b, eb0e54, b00843, e967af, ea2c96, ef2a9e, f6abee, e92db5, cb1289, ea67d1, e762cb, e468e0, b797e0, 0a94dc, 0744d0, 58b9ec, 17a2c1, b9e063, beea17, 7cc400, d7d824, d7ef67, e9ec7b</entry>
+</properties>
