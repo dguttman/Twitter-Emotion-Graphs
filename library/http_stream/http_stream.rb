@@ -1,3 +1,8 @@
+# This is a modified version of 
+# http://github.com/brianmario/yajl-ruby/blob/master/lib/yajl/http_stream.rb:
+# From
+# http://github.com/brianmario/yajl-ruby
+
 require "uri"
 require 'socket'
 class HttpStream
