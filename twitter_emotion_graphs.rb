@@ -1,6 +1,7 @@
 # Emotion Graph
 require 'java'
 require 'yaml'
+require 'pp'
 
 def create_config_yaml
   f = File.new("config.yaml", "w")
@@ -40,7 +41,7 @@ class EmotionGraph < Processing::App
 
   def setup
     render_mode JAVA2D
-    frame_rate 15
+    @frame_rate = 15
     smooth
     background 0
 
@@ -55,7 +56,7 @@ class EmotionGraph < Processing::App
   end
   
   def draw
-    # fade(5)
+    frame_rate @frame_rate
     
     @x = @frame_n % width
     
@@ -75,6 +76,19 @@ class EmotionGraph < Processing::App
         draw_emotion_graph(name, weight, i)
       end
       i += 1
+    end
+    
+    adjust_frame_rate
+    
+  end
+
+  def adjust_frame_rate
+    @last_wqs_rate ||= @tf.wqs_rate
+    if @tf.wqs_rate != @last_wqs_rate
+      # p "word queue: #{@tf.word_queue.size} / frame rate: #{@frame_rate} / twitter rate #{@tf.twitter_rate} / wqs_rate #{@tf.wqs_rate}"      
+      @frame_rate *= 1.05 if @tf.wqs_rate >= 0.5
+      @frame_rate *= 0.95 if @tf.wqs_rate <= 0.0
+      @last_wqs_rate = @tf.wqs_rate
     end
     
   end
@@ -100,9 +114,9 @@ class EmotionGraph < Processing::App
     stroke(r-30, g-30, b-30, 255)
     line this_x, min_y, this_x, this_y-sw
     
-    r, g, b = r-60, g-60, b-60 if weight < 0
+    # r, g, b = r-60, g-60, b-60 if weight < 0
     
-    stroke(r, g, b, 255)
+    stroke(r-30, g-30, b-30, 255)
     
     line this_x, this_y-sw, this_x, this_y        
     
@@ -205,13 +219,19 @@ class TwitterFeel
   EMOTIONS = %w(happiness sadness anger fear disgust surprise).map {|e| e.to_sym }
   ALPHA = 0.05
   
-  attr_reader :emotions, :weighted_emotions
+  attr_reader :emotions, :weighted_emotions, :word_queue, :twitter_rate, :wqs_rate
   
   def initialize(app=nil)
     @app = app || $app
     @currentEmotionalState = EmotionalState.new
     @state = EmotionalState.new
     @word_queue = []
+    
+    @twitter_rate ||= 5
+    @last_word_time ||= Time.now.to_f - 0.5
+    @last_wqs ||= 0
+    @wqs_rate = 0
+    @n = 0
     
     @emotions = {}
     @weighted_emotions = {}
@@ -221,7 +241,25 @@ class TwitterFeel
   end
   
   def queue_words(words)
+    
+    calculate_rates
+      
     @word_queue << words
+
+  end
+  
+  def calculate_rates
+    @n += 1
+    
+    if @n == 50
+      now = Time.now.to_f
+      dtime = now - @last_word_time
+      @twitter_rate = @n/dtime
+      @wqs_rate = (@word_queue.size - @last_wqs)/dtime
+      @last_word_time = now
+      @last_wqs = @word_queue.size
+      @n = 0
+    end
   end
   
   def process_emotions
@@ -261,8 +299,8 @@ class TwitterFeel
         status_hash = JSON.parse(status)
         if status_hash["user"]
           words = status_hash["text"]
-          time_zone = status_hash["user"]["time_zone"] 
-          queue_words(words) if words && time_zone =~ /\(US & Canada\)/
+          lang = status_hash["user"]["lang"]
+          queue_words(words) if words && lang == "en"  #time_zone =~ /\(US & Canada\)/
         end
       end
     end
@@ -271,4 +309,4 @@ class TwitterFeel
 end
 
 
-$app = EmotionGraph.new :title => "Emotion Graph", :width => 800, :height => 600
+$app = EmotionGraph.new :title => "Twitter Emotion Graphs", :width => 800, :height => 600
