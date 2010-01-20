@@ -237,6 +237,8 @@ class TwitterFeel
     @weighted_emotions = {}
     @previous_emotions = {}
     @previous_weighted_emotions = {}
+    
+    @average_weights = {}
     do_http
   end
   
@@ -269,7 +271,7 @@ class TwitterFeel
   
   def weight_emotions
     @emotions.each do |name, weight|
-      @weighted_emotions = @emotions if @weighted_emotions == {}
+      @weighted_emotions[name] ||= 0
       @previous_emotions[name] = weight
       @previous_weighted_emotions[name] = @weighted_emotions[name]
       @weighted_emotions[name] = (ALPHA * weight) + ( (1-ALPHA) * @weighted_emotions[name] )
@@ -278,16 +280,37 @@ class TwitterFeel
   
   def get_emotions
     if @word_queue.size > 0
-      @state = Empathyscope.getInstance().feel(@word_queue.shift)
+      words = @word_queue.shift
+      @state = Empathyscope.getInstance().feel(words)
       emotions = {}
     
       EMOTIONS.each do |name|
         weight = @state.send("#{name}_weight")
-        emotions[name] = weight
-        emotions[name] = weight * 5 unless name == :hapiness
+        # emotions[name] = weight
+        emotions[name] = weight * 3
+                
+        @average_weights[name] ||= {:weight => 0, :count => 0}
+        @average_weights[name][:weight] = ((@average_weights[name][:weight] * @average_weights[name][:count]) + weight)/(@average_weights[name][:count]+1)
+        @average_weights[name][:count] += 1
+
       end
+
+      special = false
+
+      @average_weights.each do |name, h|
+        special = true if emotions[name] > h[:weight]*8
+      end
+
       emotions[:valence] = @state.valence
       @emotions = emotions
+      
+      if special
+        puts "#{words}"
+        puts "#{emotions.keys.map {|s| s.to_s + " "*(15-s.to_s.size)}.join("\t")}"
+        puts "#{emotions.values.map {|s| s.to_s[0..13] + " "*(15-s.to_s[0..13].size)}.join("\t")}"
+        puts "-------------------------------------"
+      end
+    
     end
   end
   
@@ -309,4 +332,4 @@ class TwitterFeel
 end
 
 
-$app = EmotionGraph.new :title => "Twitter Emotion Graphs", :width => 800, :height => 600
+$app = EmotionGraph.new :title => "Twitter Emotion Graphs", :width => 1280, :height => (768-93)
