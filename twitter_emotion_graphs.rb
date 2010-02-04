@@ -45,7 +45,7 @@ class EmotionGraph < Processing::App
     smooth
     background 0
 
-    @tf = TwitterFeel.new(self)
+    @tf = TwitterFeel.new
     
     @bar_width = width.to_f / EMOTIONS.size
     @graph_height = (5*height.to_f/6)
@@ -221,8 +221,7 @@ class TwitterFeel
   
   attr_reader :emotions, :weighted_emotions, :word_queue, :twitter_rate, :wqs_rate
   
-  def initialize(app=nil)
-    @app = app || $app
+  def initialize
     @currentEmotionalState = EmotionalState.new
     @state = EmotionalState.new
     @word_queue = []
